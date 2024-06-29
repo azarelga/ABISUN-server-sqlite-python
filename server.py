@@ -13,26 +13,39 @@ def init_db():
         CREATE TABLE IF NOT EXISTS SensorData (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-            accel_x REAL,
-            accel_y REAL,
-            accel_z REAL,
-            force REAL
+            mma_accel REAL,
+            fsr REAL,
+            depth REAL
         )
     """)
     conn.commit()
     conn.close()
 
 
+def process_depth(accelaration, force):
+    print(force)
+    if force > 1000:
+        if accelaration < 100:
+            return accelaration / 100 + 2.2
+        elif accelaration > 100 and accelaration < 200:
+            return accelaration / 100 + 4
+        else:
+            return accelaration / 100
+    else:
+        return 0
+
+
 # Function to insert data into the database
-def insert_data(accel_x, accel_y, accel_z, force):
+def insert_data(accel, force):
     conn = sqlite3.connect("sensor_data.db")
     cursor = conn.cursor()
+    depth = process_depth(accel, force)
     cursor.execute(
         """
-        INSERT INTO SensorData (accel_x, accel_y, accel_z, force)
-        VALUES (?, ?, ?, ?)
+        INSERT INTO SensorData (mma_accel, fsr, depth)
+        VALUES (?, ?, ?)
     """,
-        (accel_x, accel_y, accel_z, force),
+        (accel, force, depth),
     )
     conn.commit()
     conn.close()
@@ -41,11 +54,9 @@ def insert_data(accel_x, accel_y, accel_z, force):
 @app.route("/post-data", methods=["POST"])
 def post_data():
     data = request.json
-    accel_x = data.get("accel_x")
-    accel_y = data.get("accel_y")
-    accel_z = data.get("accel_z")
-    force = data.get("force")
-    insert_data(accel_x, accel_y, accel_z, force)
+    accel = data.get("Percepatan")
+    force = data.get("Tekanan")
+    insert_data(accel, force)
     return jsonify({"status": "success"})
 
 
