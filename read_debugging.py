@@ -1,6 +1,5 @@
-from db_utils import read_data  # Import the read_data function from db_utils
+from db import read_data  # Import the read_data function from db_utils
 import time
-
 
 def main():
     try:
