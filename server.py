@@ -4,7 +4,6 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-
 # Initialize the SQLite database
 def init_db():
     conn = sqlite3.connect("sensor_data.db")
@@ -12,7 +11,7 @@ def init_db():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS SensorData (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            timestamp DATETIME DEFAULT (datetime('now','localtime')),
             mma_accel REAL,
             fsr REAL,
             depth REAL
@@ -62,4 +61,4 @@ def post_data():
 
 if __name__ == "__main__":
     init_db()
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="10.0.2.15", port=5000)

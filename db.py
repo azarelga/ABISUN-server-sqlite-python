@@ -13,17 +13,22 @@ def read_df():
         print(f"Error reading data: {e}")
         return pd.DataFrame()
 
-def read_df_60_seconds():
+def read_df_60_seconds(start):
     try:
         conn = sqlite3.connect("sensor_data.db")
-        query = "SELECT * FROM SensorData ORDER BY timestamp DESC LIMIT 60;"
+        query = f"""
+        SELECT * FROM SensorData
+        WHERE timestamp > "{start}"
+        ORDER BY timestamp ASC
+        LIMIT 60
+        """
         df = pd.read_sql_query(query, conn)
+        print(df)
         conn.close()
         return df
     except Exception as e:
         print(f"Error reading data: {e}")
         return pd.DataFrame()
-
 
 def latest_data():
     try:
