@@ -1,6 +1,6 @@
 import sqlite3
+import os
 import pandas as pd
-
 
 def read_df():
     try:
@@ -13,6 +13,28 @@ def read_df():
         print(f"Error reading data: {e}")
         return pd.DataFrame()
 
+def read_df_60_seconds():
+    try:
+        conn = sqlite3.connect("sensor_data.db")
+        query = "SELECT * FROM SensorData ORDER BY timestamp DESC LIMIT 60;"
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+        return df
+    except Exception as e:
+        print(f"Error reading data: {e}")
+        return pd.DataFrame()
+
+
+def latest_data():
+    try:
+        conn = sqlite3.connect("sensor_data.db")
+        query = "SELECT * FROM Sensordata ORDER BY timestamp DESC LIMIT 1;"
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+        return df
+    except Exception as e:
+        print(f"Error reading data: {e}")
+        return pd.DataFrame()
 
 def read_data():
     try:
