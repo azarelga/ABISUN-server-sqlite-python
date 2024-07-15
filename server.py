@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import sqlite3
 from datetime import datetime
+import time
 
 app = Flask(__name__)
+last_request_time = None
 
 # Initialize the SQLite database
 def init_db():
@@ -52,11 +54,21 @@ def insert_data(accel, force):
 
 @app.route("/post-data", methods=["POST"])
 def post_data():
+    global last_request_time
     data = request.json
     accel = data.get("Percepatan")
     force = data.get("Tekanan")
+    last_request_time = time.time()  # Update the timestamp
     insert_data(accel, force)
     return jsonify({"status": "success"})
+
+@app.route('/last-request-time', methods=['GET'])
+def get_last_request_time():
+    global last_request_time
+    if last_request_time is not None:
+        return jsonify({"last_request_time": last_request_time}), 200
+    else:
+        return jsonify({"error": "No requests received yet"}), 404
 
 
 if __name__ == "__main__":
