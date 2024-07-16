@@ -23,15 +23,9 @@ def init_db():
     conn.close()
 
 
-def process_depth(accelaration, force):
-    print(force)
-    if force > 1000:
-        if accelaration < 100:
-            return accelaration / 100 + 2.2
-        elif accelaration > 100 and accelaration < 200:
-            return accelaration / 100 + 4
-        else:
-            return accelaration / 100
+def process_depth(depth, force):
+    if force > 3000:
+        return depth
     else:
         return 0
 
@@ -57,7 +51,8 @@ def post_data():
     data = request.json
     accel = data.get("Percepatan")
     force = data.get("Tekanan")
-    depth = data.get("Kedalaman")
+    depth = process_depth(data.get("Kedalaman"),force)
+    last_request_time = time.time()
     insert_data(accel, force, depth)
     return jsonify({"status": "success"})
 
@@ -72,4 +67,4 @@ def get_last_request_time():
 
 if __name__ == "__main__":
     init_db()
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="192.168.77.185", port=5000)

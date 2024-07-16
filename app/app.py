@@ -35,7 +35,7 @@ class App:
             "Cenderung Terlalu Dalam", 
             "Cenderung Kurang Dalam"
         ]
-        self.server_url = "http://192.168.100.11:5000/last-request-time"  # Replace with your server URL
+        self.server_url = "http://192.168.77.185:5000/last-request-time"  # Replace with your server URL
 
     def main(self):
         if not st.session_state['running']:
