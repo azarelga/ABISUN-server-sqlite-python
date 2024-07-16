@@ -8,7 +8,7 @@ last_request_time = None
 
 # Initialize the SQLite database
 def init_db():
-    conn = sqlite3.connect("sensor_data.db")
+    conn = sqlite3.connect("../data/sensor_data.db")
     cursor = conn.cursor()
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS SensorData (
@@ -37,10 +37,9 @@ def process_depth(accelaration, force):
 
 
 # Function to insert data into the database
-def insert_data(accel, force):
-    conn = sqlite3.connect("sensor_data.db")
+def insert_data(accel, force, depth):
+    conn = sqlite3.connect("../data/sensor_data.db")
     cursor = conn.cursor()
-    depth = process_depth(accel, force)
     cursor.execute(
         """
         INSERT INTO SensorData (mma_accel, fsr, depth)
@@ -58,8 +57,8 @@ def post_data():
     data = request.json
     accel = data.get("Percepatan")
     force = data.get("Tekanan")
-    last_request_time = time.time()  # Update the timestamp
-    insert_data(accel, force)
+    depth = data.get("Kedalaman")
+    insert_data(accel, force, depth)
     return jsonify({"status": "success"})
 
 @app.route('/last-request-time', methods=['GET'])
@@ -73,4 +72,4 @@ def get_last_request_time():
 
 if __name__ == "__main__":
     init_db()
-    app.run(host="10.0.2.15", port=5000)
+    app.run(host="0.0.0.0", port=5000)

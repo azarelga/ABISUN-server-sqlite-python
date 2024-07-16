@@ -4,7 +4,7 @@ import pandas as pd
 
 def read_df():
     try:
-        conn = sqlite3.connect("sensor_data.db")
+        conn = sqlite3.connect("../data/sensor_data.db")
         query = "SELECT * FROM SensorData"
         df = pd.read_sql_query(query, conn)
         conn.close()
@@ -15,7 +15,7 @@ def read_df():
 
 def read_df_60_seconds(start):
     try:
-        conn = sqlite3.connect("sensor_data.db")
+        conn = sqlite3.connect("../data/sensor_data.db")
         query = f"""
         SELECT * FROM SensorData
         WHERE timestamp > "{start}"
@@ -32,7 +32,7 @@ def read_df_60_seconds(start):
 
 def latest_data():
     try:
-        conn = sqlite3.connect("sensor_data.db")
+        conn = sqlite3.connect("../data/sensor_data.db")
         query = "SELECT * FROM Sensordata ORDER BY timestamp DESC LIMIT 1;"
         df = pd.read_sql_query(query, conn)
         conn.close()
@@ -43,7 +43,7 @@ def latest_data():
 
 def read_data():
     try:
-        conn = sqlite3.connect("sensor_data.db")
+        conn = sqlite3.connect("../data/sensor_data.db")
         cursor = conn.cursor()
 
         # Execute a query to retrieve data
