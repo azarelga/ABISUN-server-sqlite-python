@@ -37,7 +37,7 @@ echo.
 echo Menjalankan server dan aplikasi...
 start python app\server.py
 timeout /t 5
-start python app\app.py
+start streamlit run app\app.py
 timeout /t 5
 
 :: Langkah 4: Membuka Aplikasi di Browser
@@ -47,6 +47,7 @@ start "" "http://localhost:8501"
 echo.
 echo =====================================================
 echo      Instalasi selesai! ABISUN sekarang berjalan.
+echo   Jangan tutup window ini untuk membiarkan berjalan.
 echo =====================================================
 echo.
 

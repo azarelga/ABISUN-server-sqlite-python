@@ -12,7 +12,7 @@ from db import read_df, read_df_60_seconds, latest_data # Import the read_data f
 class App:
     def __init__(self):
         self.model = None
-        self.scaler = joblib.load('model/scaler.gz')
+        self.scaler = joblib.load('../model/scaler.gz')
         self.df = read_df()
         if 'running' not in st.session_state:
             st.session_state['running'] = False
@@ -54,6 +54,9 @@ class App:
 
             st.header("Step by Step Simulasi")
             st.write("""
+            0. Buatlah hotspot dari Handphone anda dengan detail sebagai berikut, pastikan laptop anda juga sudah terhubung:
+                - Nama Hotspot: ABISUN
+                - Password Hotspot: bantucpr
             1. Pilih sesi: Dewasa, Anak, atau Bayi.
             2. Mulai simulasi dengan menekan tombol di bawah.
             3. Lakukan simulasi RJP pada maneken selama 60 detik.
@@ -67,9 +70,9 @@ class App:
                     time.sleep(5)
         else:
             if self.subject_session is "Bayi":
-                self.model = load_model("model/model_kedalaman_bayi.h5")
+                self.model = load_model("../model/model_kedalaman_bayi.h5")
             else: 
-                self.model = load_model("model/model_kedalaman_dewasa_anak.h5")
+                self.model = load_model("../model/model_kedalaman_dewasa_anak.h5")
             self.labels=[]
             countdown_placeholder = st.empty()
             for i in range(5, 0, -1):
