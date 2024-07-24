@@ -1,10 +1,39 @@
 from flask import Flask, request, jsonify
+from zeroconf import Zeroconf, ServiceInfo
 import sqlite3
+import socket
 from datetime import datetime
 import time
 
 app = Flask(__name__)
 last_request_time = None
+
+def get_local_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('8.8.8.8', 80))
+        ip = s.getsockname()[0]
+    except Exception:
+        ip = '127.0.0.1'
+    finally:
+        s.close()
+    return ip
+
+YOUR_LOCAL_IP = get_local_ip()
+YOUR_LOCAL_HOST = "abisun-server"   
+
+# Advertise the service
+zeroconf = Zeroconf()
+info = ServiceInfo(
+    "_http._tcp.local.",
+    f"{YOUR_LOCAL_HOST}._http._tcp.local.",
+    addresses=[socket.inet_aton(YOUR_LOCAL_IP)],
+    port=5000,
+    properties={},
+    server=f"{YOUR_LOCAL_HOST}.local."
+)
+zeroconf.register_service(info)
+
 
 # Initialize the SQLite database
 def init_db():
@@ -24,10 +53,7 @@ def init_db():
 
 
 def process_depth(depth, force):
-    if force > 3000:
-        return depth
-    else:
-        return 0
+    return depth
 
 
 # Function to insert data into the database
@@ -67,4 +93,4 @@ def get_last_request_time():
 
 if __name__ == "__main__":
     init_db()
-    app.run(host="192.168.77.185", port=5000)
+    app.run(host="0.0.0.0", port=5000)

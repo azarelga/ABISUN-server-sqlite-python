@@ -35,7 +35,7 @@ class App:
             "Cenderung Terlalu Dalam", 
             "Cenderung Kurang Dalam"
         ]
-        self.server_url = "http://10.0.2.15:5000/last-request-time"  # Replace with your server URL
+        self.server_url = f"http://abisun-server.local:5000/last-request-time"  # Replace with your server URL
 
     def main(self):
         if not st.session_state['running']:
@@ -130,12 +130,13 @@ class App:
             if i % 10 == 0 and i != 60:
                 if (len(self.time_series) < 10):
                     depth_mode = self.time_series['depth'].mode()
-                    additional_rows = pd.DataFrame({
-                                        'timestamp': [time.time()] * (10-len(self.time_series)),
-                                        'depth': [depth_mode] * (10 - len(self.time_series))
-                                    })
-                    self.time_series = pd.concat([self.time_series, additional_rows], ignore_index=True)
-                label_index = self.review_quality(self.time_series[['depth']].head(10))
+                    for i in range (10 - len(self.time_series)):
+                        additional_rows = pd.DataFrame({
+                                            'timestamp': time.time(),
+                                            'depth': depth_mode,
+                                        })
+                        self.time_series = pd.concat([self.time_series, additional_rows], ignore_index=True)
+                label_index = self.review_quality(self.time_series[['depth']].tail(10))
                 self.labels.append(label_index)
             chart_placeholder.plotly_chart(self.chart_builder('depth'))
             time.sleep(1)
