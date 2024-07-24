@@ -69,7 +69,7 @@ class App:
                     self.check_connection()
                     time.sleep(5)
         else:
-            if self.subject_session is "Bayi":
+            if self.subject_session == "Bayi":
                 self.model = load_model("../model/model_kedalaman_bayi.h5")
             else: 
                 self.model = load_model("../model/model_kedalaman_dewasa_anak.h5")
@@ -128,6 +128,13 @@ class App:
                 print(label_index)
             self.time_series = read_df_60_seconds(self.start_time)
             if i % 10 == 0 and i != 60:
+                if (len(self.time_series) < 10):
+                    depth_mode = self.time_series['depth'].mode()
+                    additional_rows = pd.DataFrame({
+                                        'timestamp': [time_series['timestamp'].iloc[-1] + pd.Timedelta(seconds=i) for i in range(1, 10 - len(time_series) + 1)],
+                                        'depth': [depth_mode] * (10 - len(time_series))
+                                    })
+                    self.time_series = pd.concat([time_series, additional_rows], ignore_index=True)
                 label_index = self.review_quality(self.time_series[['depth']].head(10))
                 self.labels.append(label_index)
             chart_placeholder.plotly_chart(self.chart_builder('depth'))
