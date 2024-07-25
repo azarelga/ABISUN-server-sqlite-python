@@ -35,9 +35,10 @@ echo.
 
 :: Langkah 3: Menjalankan Server dan Aplikasi
 echo Menjalankan server dan aplikasi...
-start python app\server.py
+cd app
+start python server.py
 timeout /t 5
-start streamlit run app\app.py
+start python -m streamlit run app.py
 timeout /t 5
 
 :: Langkah 4: Membuka Aplikasi di Browser
