@@ -1,8 +1,16 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8267f704-118b-451b-86a0-89ff94c857f1" alt="Logo ABISUN" width=300 height=300/>
+</p>
+
 # ABISUN: Alat Bantu Edukasi Resusitasi Jantung Paru
 
 ABISUN (Alat Bantu Edukasi Resusitasi Jantung Paru) adalah maneken setengah badan inovatif yang dirancang untuk simulasi resusitasi jantung paru (RJP). Produk ini dilengkapi dengan sistem umpan balik yang menilai performa RJP pengguna. ABISUN menawarkan tiga jenis simulasi RJP berdasarkan kelompok usia yang berbeda dalam satu produk, yaitu bayi, anak, dan dewasa.
 
 ## Fitur Utama
+
+<p align="center">
+  <img width="409" alt="Layar Utama ABISUN" src="https://github.com/user-attachments/assets/6afa54ed-43b3-4fb3-a8d8-1c84b364671a">
+</p>
 
 1. **Simulasi Tiga Usia**: ABISUN menyediakan simulasi resusitasi jantung untuk tiga kelompok usia (bayi, anak, dan dewasa) dalam satu produk, memungkinkan pemahaman yang lebih komprehensif dan efisien mengenai teknik RJP.
 2. **Umpan Balik Performasi**: Produk ini memberikan umpan balik langsung yang membantu pengguna menilai dan meningkatkan performa RJP mereka.
@@ -36,14 +44,10 @@ Skrip ini akan memulai server dan aplikasi, serta membuka browser ke situs local
 
 ## Teknologi yang Digunakan
 
-- **Flask**: Kerangka kerja aplikasi web WSGI ringan untuk Python.
-- **Streamlit**: Kerangka kerja aplikasi terbuka untuk Machine Learning dan Data Science.
-- **TensorFlow**: Platform sumber terbuka untuk machine learning end-to-end.
-- **SQLite3**: Perpustakaan C yang menyediakan basis data disk-based ringan.
-
-## Kontribusi
-
-Kontribusi sangat dihargai! Silakan buka issue atau ajukan pull request.
+- **Flask**: Framework server web WSGI ringan untuk Python.
+- **Streamlit**: Framework frontend dengan integrasi terbaik untuk machine learning pada Python.
+- **TensorFlow**: Platform open source untuk machine learning end-to-end.
+- **SQLite3**: DBMS disk-based yang ringan.
 
 ## Lisensi
 
@@ -51,4 +55,4 @@ Proyek ini dilisensikan di bawah Lisensi MIT. Lihat berkas LICENSE untuk detailn
 
 ## Penghargaan
 
-- Terima kasih kepada komunitas open-source untuk alat dan pustaka yang digunakan dalam proyek ini. Saya juga ingin berterimakasih kepada rekan saya pada tim ABISUN untuk memberikan saya kesempatan dalam menghadirkan inovasi pada proyek ini
+- Terima kasih kepada komunitas open-source untuk alat dan pustaka yang digunakan dalam proyek ini. Saya juga ingin berterimakasih kepada rekan - rekan saya dari tim ABISUN untuk memberikan saya kesempatan dalam menghadirkan inovasi pada proyek ini! With ABISUN, Save a Beat, Save a Life!
