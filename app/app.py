@@ -209,37 +209,37 @@ class App:
             with col1:
                 st.subheader(f"**Detik 0-10**")
                 st.markdown(
-                    f"<h3 style='color : {self.text_colors[self.labels[0]]}';>{self.string_predictions[self.labels[0]]}</h3>",
+                    f"<p style='color : {self.text_colors[self.labels[0]]}';>{self.string_predictions[self.labels[0]]}</p>",
                     unsafe_allow_html=True
                 )
             with col2:
                 st.subheader(f"**Detik 10-20**")
                 st.markdown(
-                    f"<h3 style='color : {self.text_colors[self.labels[1]]}';>{self.string_predictions[self.labels[1]]}</h3>",
+                    f"<p style='color : {self.text_colors[self.labels[1]]}';>{self.string_predictions[self.labels[1]]}</p>",
                     unsafe_allow_html=True
                 )
             with col3:
                 st.subheader(f"**Detik 20-30**")
                 st.markdown(
-                    f"<h3 style='color : {self.text_colors[self.labels[2]]}';>{self.string_predictions[self.labels[2]]}</h3>",
+                    f"<p style='color : {self.text_colors[self.labels[2]]}';>{self.string_predictions[self.labels[2]]}</p>",
                     unsafe_allow_html=True
                 )
             with col4:
                 st.subheader(f"**Detik 30-40**")
                 st.markdown(
-                    f"<h3 style='color : {self.text_colors[self.labels[3]]}';>{self.string_predictions[self.labels[3]]}</h3>",
+                    f"<p style='color : {self.text_colors[self.labels[3]]}';>{self.string_predictions[self.labels[3]]}</p>",
                     unsafe_allow_html=True
                 )
             with col5:
                 st.subheader(f"**Detik 40-50**")
                 st.markdown(
-                    f"<h3 style='color : {self.text_colors[self.labels[4]]}';>{self.string_predictions[self.labels[4]]}</h3>",
+                    f"<p style='color : {self.text_colors[self.labels[4]]}';>{self.string_predictions[self.labels[4]]}</p>",
                     unsafe_allow_html=True
                 )
             with col6:
                 st.subheader(f"**Detik 50-60**")
                 st.markdown(
-                    f"<h3 style='color : {self.text_colors[self.labels[5]]}';>{self.string_predictions[self.labels[5]]}</h3>",
+                    f"<p style='color : {self.text_colors[self.labels[5]]}';>{self.string_predictions[self.labels[5]]}</p>",
                     unsafe_allow_html=True
                 )
             chart_placeholder = st.empty()
