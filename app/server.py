@@ -43,8 +43,6 @@ def init_db():
         CREATE TABLE IF NOT EXISTS SensorData (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             timestamp DATETIME DEFAULT (datetime('now','localtime')),
-            mma_accel REAL,
-            fsr REAL,
             depth REAL
         )
     """)
@@ -52,20 +50,16 @@ def init_db():
     conn.close()
 
 
-def process_depth(depth, force):
-    return depth
-
-
 # Function to insert data into the database
-def insert_data(accel, force, depth):
+def insert_data(depth):
     conn = sqlite3.connect("../data/sensor_data.db")
     cursor = conn.cursor()
-    cursor.execute(
+    cursor.execute( 
         """
-        INSERT INTO SensorData (mma_accel, fsr, depth)
-        VALUES (?, ?, ?)
-    """,
-        (accel, force, depth),
+        INSERT INTO SensorData (depth)
+        VALUES (?)
+        """,
+        (depth,),
     )
     conn.commit()
     conn.close()
@@ -75,11 +69,9 @@ def insert_data(accel, force, depth):
 def post_data():
     global last_request_time
     data = request.json
-    accel = data.get("Percepatan")
-    force = data.get("Tekanan")
-    depth = process_depth(data.get("Kedalaman"),force)
+    depth = data.get("Kedalaman")
     last_request_time = time.time()
-    insert_data(accel, force, depth)
+    insert_data(depth)
     return jsonify({"status": "success"})
 
 @app.route('/last-request-time', methods=['GET'])
