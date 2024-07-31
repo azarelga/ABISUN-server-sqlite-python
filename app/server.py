@@ -54,12 +54,12 @@ def init_db():
 def insert_data(depth):
     conn = sqlite3.connect("../data/sensor_data.db")
     cursor = conn.cursor()
-    cursor.execute(
+    cursor.execute( 
         """
         INSERT INTO SensorData (depth)
         VALUES (?)
-    """,
-        (depth),
+        """,
+        (depth,),
     )
     conn.commit()
     conn.close()

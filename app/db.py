@@ -20,7 +20,6 @@ def read_df_60_seconds(start):
         SELECT * FROM SensorData
         WHERE timestamp > "{start}"
         ORDER BY timestamp ASC
-        LIMIT 60
         """
         df = pd.read_sql_query(query, conn)
         print(df)

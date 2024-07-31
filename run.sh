@@ -40,14 +40,11 @@ echo
 
 # Langkah 3: Menjalankan Server dan Aplikasi
 echo "Menjalankan server dan aplikasi..."
-python3 app/server.py &
+cd app
+python3 server.py &
 sleep 5
-streamlit run app/app.py &
+streamlit run app.py &
 sleep 5
-
-# Langkah 4: Membuka Aplikasi di Browser
-echo "Membuka aplikasi di browser Anda..."
-xdg-open "http://localhost:8501" || open "http://localhost:8501" || start "http://localhost:8501"
 
 echo
 echo "====================================================="

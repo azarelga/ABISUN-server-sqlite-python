@@ -6,6 +6,7 @@ import requests
 from statistics import mode
 import joblib
 import time
+from scipy.signal import argrelextrema
 from keras.models import load_model
 import datetime
 from db import read_df, read_df_60_seconds, latest_data # Import the read_data function from db_utils
@@ -58,9 +59,8 @@ class App:
         2. Lakukan kompresi dada:
             - Tempatkan tumit salah satu tangan di tengah dada korban, tepat di antara puting susu.
             - Tempatkan tangan lainnya di atas tangan pertama dan kunci jari-jari Anda.
-            - Tekan dada korban ke bawah setidaknya 5 cm untuk orang dewasa, 4 cm untuk anak-anak, dan 3 cm untuk bayi.
+            - Tekan dada korban ke bawah setidaknya 4 cm untuk orang dewasa dan anak-anak, dan 3 cm untuk bayi.
             - Lakukan kompresi dengan kecepatan 100-120 kali per menit.
-        3. Lanjutkan siklus 30 kompresi.
         """)
 
         st.header("Step by Step Simulasi")
@@ -199,9 +199,15 @@ class App:
 
     def result(self):
         result_placeholder = st.empty()
+        self.time_series['local_max'] = self.time_series.iloc[argrelextrema(self.time_series['depth'].values, np.greater_equal, order=1)[0]]['depth']
+        self.time_series['local_min'] = self.time_series.iloc[argrelextrema(self.time_series['depth'].values, np.less_equal, order=1)[0]]['depth']
+        num_local_maxima = self.time_series['local_max'].count()
+        num_local_minima = self.time_series['local_min'].count()
+
         with result_placeholder.container():
             st.header("Berikut adalah hasil CPR anda!")
             overall_quality = mode(self.labels)
+            st.subheader(f"Jumlah kompresimu: {(num_local_minima + num_local_maxima) // 2}")
             st.markdown(
                 f"<h2>Kualitas RJP-mu secara garis besar: <span style='color : {self.text_colors[overall_quality]};'>{self.string_predictions[overall_quality]}</span></h2>", 
                 unsafe_allow_html=True)
