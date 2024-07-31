@@ -1,4 +1,5 @@
 import streamlit as st
+import base64
 import numpy as np
 import plotly.express as px
 import pandas as pd
@@ -70,7 +71,7 @@ class App:
             - Password Hotspot: bantucpr
         1. Pilih sesi: Dewasa, Anak, atau Bayi.
         2. Mulai simulasi dengan menekan tombol "Mulai Simulasi" di bawah.
-        3. Lakukan simulasi RJP pada maneken selama 60 detik.
+        3. Lakukan simulasi RJP pada maneken selama 60 detik. Irama RJP diselaraskan dengan irama metronome yang dimainkan!
         4. Evaluasi performa RJP setelah simulasi telah selesai.
         """)
         self.start_button()
@@ -89,6 +90,7 @@ class App:
 
         self.labels = []
 
+        self.autoplay_audio("../assets/metronome.mp3")
         # Countdown before starting the simulation
         countdown_placeholder = st.empty()
         for i in range(5, 0, -1):
@@ -112,6 +114,21 @@ class App:
                   use_container_width=True, 
                   on_click=self.set_page()
                   )
+
+    def autoplay_audio(self,file_path: str):
+        with open(file_path, "rb") as f:
+            data = f.read()
+            b64 = base64.b64encode(data).decode()
+            md = f"""
+                <audio controls autoplay="true" style='display:none;'>
+                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+                </audio>
+                """
+            st.markdown(
+                md,
+                unsafe_allow_html=True,
+            )
+
 
     def check_connection(self):
         try:
@@ -207,7 +224,10 @@ class App:
         with result_placeholder.container():
             st.header("Berikut adalah hasil CPR anda!")
             overall_quality = mode(self.labels)
-            st.subheader(f"Jumlah kompresimu: {(num_local_minima + num_local_maxima) // 2}")
+            compression = (num_local_minima + num_local_maxima) // 2
+            st.markdown(
+                f"<h2>Jumlah kompresimu: <span style='color : {'red' if compression > 120 or compression < 100 else 'green'};'>{compression}</span></h2>", 
+                unsafe_allow_html=True)
             st.markdown(
                 f"<h2>Kualitas RJP-mu secara garis besar: <span style='color : {self.text_colors[overall_quality]};'>{self.string_predictions[overall_quality]}</span></h2>", 
                 unsafe_allow_html=True)
