@@ -89,9 +89,10 @@ class App:
             self.model = load_model("../model/model_kedalaman_dewasa_anak.h5")
 
         self.labels = []
+        self.time_series = self.time_series.iloc[0:0]
 
-        self.autoplay_audio("../assets/metronome.mp3")
         # Countdown before starting the simulation
+        self.autoplay_audio("../assets/metronome.mp3")
         countdown_placeholder = st.empty()
         for i in range(5, 0, -1):
             countdown_placeholder.text(f"Siap - siap! Simulasi CPR akan dimulai dalam {i} detik...")
@@ -177,9 +178,14 @@ class App:
                         self.time_series = pd.concat([self.time_series, additional_rows], ignore_index=True)
                 label_index = self.review_quality(self.time_series[['depth']].tail(10))
                 self.labels.append(label_index)
-            chart_placeholder.plotly_chart(self.chart_builder('depth'))
+            #chart_placeholder.plotly_chart(self.chart_builder('depth'))
+            with chart_placeholder.container():
+                self.debug_chart()
             time.sleep(1)
         st.session_state['done'] = True
+
+    def debug_chart(self):
+        st.write(self.time_series.tail(1)['timestamp','depth'])
 
     def chart_builder(self, col):
         fig = px.line(self.time_series, x='timestamp', y=col, title="Data Kedalaman")
