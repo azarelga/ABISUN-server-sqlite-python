@@ -185,7 +185,7 @@ class App:
         st.session_state['done'] = True
 
     def debug_chart(self):
-        st.write(self.time_series.tail(1)['timestamp','depth'])
+        st.write(self.time_series.tail(1)[['timestamp','depth']])
 
     def chart_builder(self, col):
         fig = px.line(self.time_series, x='timestamp', y=col, title="Data Kedalaman")
