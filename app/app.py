@@ -3,14 +3,12 @@ import base64
 import numpy as np
 import plotly.express as px
 import pandas as pd
-import requests
 from statistics import mode
 import joblib
 import time
 from scipy.signal import argrelextrema
 from keras.models import load_model
-import datetime
-from db import read_df, read_df_60_seconds, latest_data # Import the read_data function from db_utils
+from db import read_df, read_df_60_seconds, has_recent_entry # Import the read_data function from db_utils
 
 class App:
     def __init__(self):
@@ -43,7 +41,6 @@ class App:
             "Cenderung Terlalu Dalam", 
             "Cenderung Kurang Dalam"
         ]
-        self.server_url = f"http://abisun-server.local:5000/last-request-time"  # Replace with your server URL
 
     def main(self):
         if st.session_state['running'] == False:
@@ -133,17 +130,10 @@ class App:
 
     def check_connection(self):
         try:
-            response = requests.get(self.server_url)
-            if response.status_code == 200:
-                last_request_time = response.json().get("last_request_time")
-                last_request_datetime = datetime.datetime.fromtimestamp(last_request_time)
-                time_diff = datetime.datetime.now() - last_request_datetime
-                if time_diff.total_seconds() < 5:  # Assume device is connected if the last request was within 5 seconds
-                    st.success(f"Maneken sudah tersambung. Last request received {time_diff.seconds} seconds ago.")
-                else:
-                    st.error("Maneken belum tersambung.")
+            if has_recent_entry():
+                st.success(f"Maneken sudah tersambung")
             else:
-                st.error("Server gagal.")
+                st.error("Maneken belum tersambung.")
         except Exception as e:
             st.error(f"Koneksi Error: {str(e)}")
 
@@ -178,9 +168,7 @@ class App:
                         self.time_series = pd.concat([self.time_series, additional_rows], ignore_index=True)
                 label_index = self.review_quality(self.time_series[['depth']].tail(10))
                 self.labels.append(label_index)
-            #chart_placeholder.plotly_chart(self.chart_builder('depth'))
-            with chart_placeholder.container():
-                self.debug_chart()
+            chart_placeholder.plotly_chart(self.chart_builder('depth'))
             time.sleep(1)
         st.session_state['done'] = True
 

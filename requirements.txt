@@ -4,5 +4,6 @@ tensorflow==2.15.0
 pandas==2.2.2
 plotly==5.22.0
 Requests==2.32.3
-streamlit==1.36.0
-zeroconf
+streamlit==1.37.1
+blinker==1.8.2
+bleak==0.22.2

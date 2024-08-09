@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime, timedelta
 import os
 import pandas as pd
 
@@ -28,6 +29,26 @@ def read_df_60_seconds(start):
     except Exception as e:
         print(f"Error reading data: {e}")
         return pd.DataFrame()
+
+def has_recent_entry(seconds=10):
+    try:
+        conn = sqlite3.connect("../data/sensor_data.db")
+        cursor = conn.cursor()
+
+        # Calculate the timestamp 10 seconds ago
+        ten_seconds_ago = datetime.now() - timedelta(seconds=seconds)
+        ten_seconds_ago_str = ten_seconds_ago.strftime('%Y-%m-%d %H:%M:%S')
+
+        # Query to check if there are any entries in the last 10 seconds
+        query = f"SELECT EXISTS(SELECT 1 FROM SensorData WHERE timestamp > ?)"
+        cursor.execute(query, (ten_seconds_ago_str,))
+        result = cursor.fetchone()[0]
+
+        conn.close()
+        return bool(result)
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
+        return False
 
 def latest_data():
     try:
