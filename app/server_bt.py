@@ -3,6 +3,7 @@ import sqlite3
 from bleak import BleakClient
 import struct
 
+# Rest of your code remains the same, including `notification_handler` and `connect_and_read`
 # UUIDs for the BLE service and characteristic
 SERVICE_UUID = "A07498CA-AD5B-474E-940D-16F1FBE7E8CD".lower()
 CHARACTERISTIC_UUID = "51FF12BB-3ED8-46E5-B4F9-D64E2FEC021B".lower()

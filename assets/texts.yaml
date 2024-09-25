@@ -1,0 +1,39 @@
+dialog_message:
+  Dewasa: |
+    1. Pastikan area aman untuk Anda dan subjek RJP.
+    2. Lakukan kompresi dada:
+        - Tempatkan tumit salah satu tangan di tengah dada korban, tepat di antara puting susu.
+        - Tempatkan tangan lainnya di atas tangan pertama dan kunci jari - jari
+        - Lakukan kompresi sedalam 4-5 cm
+  Anak: |
+    1. Pastikan area aman untuk Anda dan subjek RJP.
+    2. Lakukan kompresi dada:
+        - Tempatkan tumit salah satu tangan di tengah dada korban, tepat di antara puting susu.
+        - Tempatkan tangan lainnya di atas tangan pertama dan kunci jari - jari
+        - Lakukan kompresi sedalam 4-5 cm
+  Bayi: |
+    1. Pastikan area aman untuk Anda dan subjek RJP.
+    2. Lakukan kompresi dada:
+        - Tempatkan tumit salah satu tangan di tengah dada korban, tepat di antara puting susu.
+        - Tempatkan tangan lainnya di atas tangan pertama dan kunci jari - jari
+        - Lakukan kompresi sedalam 4 cm
+
+step_by_step: |
+  0. Nyalakan Bluetooth pada perangkat Anda. 
+  1. Pilih sesi: Dewasa, Anak, atau Bayi.
+  2. Mulai simulasi dengan menekan tombol "Mulai Simulasi" di bawah.
+  3. Lakukan simulasi RJP pada maneken selama 60 detik. Irama RJP diselaraskan dengan irama metronome yang dimainkan!
+  4. Evaluasi performa RJP setelah simulasi telah selesai.
+
+string_feedbacks:
+  - "Kerja bagus! Kompresimu sudah stabil, mari pertahankan hingga akhir sesi!"
+  - "Tekananmu tidak stabil, kadang terlalu dangkal, kadang terlalu dalam, coba perdekat tekanan di sekitar 4 cm!"
+  - "Pelan - pelan, sobat! Kompresimu terlalu dalam!"
+  - "Memang ini melelahkan, tapi kompresimu terlalu dangkal, coba tekan lebih dalam!"
+  - "Tetap lakukan kompresi!"
+
+string_predictions:
+  - "Stabil"
+  - "Tidak Stabil"
+  - "Cenderung Terlalu Dalam"
+  - "Cenderung Kurang Dalam"
