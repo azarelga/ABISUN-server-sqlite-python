@@ -35,10 +35,10 @@ class Home:
             self.texts = yaml.safe_load(file)
         self.labels = []
         self.text_colors = ["green", "red", "red", "red", "green"]
+        # st.sidebar.header("ABISUN")
         st.set_page_config(
             page_title="ABISUN App",
             page_icon="chart_with_upwards_trend",
-            layout="wide",
         )
         st.markdown(
             """
@@ -94,7 +94,8 @@ class Home:
         self.time_series = self.time_series.iloc[0:0]
 
         # Countdown before starting the simulation
-        self.autoplay_audio("../assets/metronome.mp3")
+        if st.session_state["running"]:
+            self.autoplay_audio("../assets/metronome.mp3")
         countdown_placeholder = st.empty()
         for i in range(5, 0, -1):
             countdown_placeholder.text(
@@ -107,7 +108,11 @@ class Home:
         self.result()  # Function to show results after simulation
 
         st.subheader("Mulai lagi?")
-        self.start_button()
+        if st.button("Balik ke Halaman Utama", type="secondary"):
+            st.session_state["running"] = False
+            st.session_state["done"] = False
+            st.session_state["show_modal"] = False
+            st.rerun()
 
     def set_page(self):
         st.session_state["running"] = True
@@ -134,10 +139,10 @@ class Home:
 
         b64 = base64.b64encode(data).decode()
 
-        # Add loop to replay audio automatically
+        # First time: Play the audio and then pause it after a specific time
         md = f"""
-            <audio controls autoplay loop style='display:none;'>
-            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            <audio id="audio-player" controls autoplay style='display:none;'>
+                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
             </audio>
             """
 
@@ -236,6 +241,7 @@ class Home:
         )
 
     def result(self):
+        st.session_state["running"] = False
         result_placeholder = st.empty()
         # self.time_series["local_max"] = self.time_series.iloc[
         #     argrelextrema(self.time_series["depth"].values, np.greater_equal, order=1)[
