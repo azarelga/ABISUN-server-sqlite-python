@@ -30,8 +30,8 @@ def init_db():
     conn.close()
 
 
-def calculate_moving_average():
-    return max(depth_buffer)
+def calculate_quantile():
+    return np.quantile(depth_buffer, 0.95)
 
 
 # Function to insert data into the database
@@ -60,11 +60,11 @@ def notification_handler(characteristic, value):
 
             # If the buffer is full (i.e., after 1 second of data), calculate the moving average
             if len(depth_buffer) >= buffer_max_size:
-                moving_average = calculate_moving_average()
-                print(f"Moving Average of last 1 second: {moving_average}")
+                quantile = calculate_quantile()
+                print(f"Quantile 95% of last 1 second: {quantile}")
 
                 # Store the depth value in the database
-                store_depth_value(moving_average)
+                store_depth_value(quantile)
 
                 # Clear the buffer for the next second
                 depth_buffer = []
