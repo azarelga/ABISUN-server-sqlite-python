@@ -35,5 +35,5 @@ string_feedbacks:
 string_predictions:
   - "Stabil"
   - "Tidak Stabil"
-  - "Cenderung Terlalu Dalam"
-  - "Cenderung Kurang Dalam"
+  - "Terlalu Dalam"
+  - "Kurang Dalam"
