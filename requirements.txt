@@ -1,4 +1,5 @@
 Flask==3.0.3
+pyyaml
 joblib==1.4.2
 tensorflow==2.15.0
 pandas==2.2.2

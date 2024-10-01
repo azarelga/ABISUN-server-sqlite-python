@@ -36,9 +36,9 @@ echo.
 :: Langkah 3: Menjalankan Server dan Aplikasi
 echo Menjalankan server dan aplikasi...
 cd app
-start python server.py
+start python server_bt.py
 timeout /t 5
-start python -m streamlit run app.py
+start python -m streamlit run Home.py
 timeout /t 5
 
 :: Langkah 4: Membuka Aplikasi di Browser
