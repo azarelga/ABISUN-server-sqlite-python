@@ -210,7 +210,7 @@ class Home:
             xaxis=dict(tickfont=dict(size=20)),
             modebar_remove=["select", "zoom", "pan"],
         )
-        threshold = [[3.5, 5.5], [2.5, 4.5]]
+        threshold = [[4, 5], [3.8, 4.2]]
         if self.subject_session != "Bayi":
             fig.add_hline(y=threshold[0][0], line_dash="dash", line_color="lightgreen")
             fig.add_hline(y=threshold[0][1], line_dash="dash", line_color="lightgreen")
