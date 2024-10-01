@@ -2,7 +2,6 @@ import asyncio
 import numpy as np
 import sqlite3
 from bleak import BleakClient
-import struct
 
 # Rest of your code remains the same, including `notification_handler` and `connect_and_read`
 # UUIDs for the BLE service and characteristic
@@ -76,37 +75,50 @@ def notification_handler(characteristic, value):
 
 
 async def connect_and_read(address):
-    async with BleakClient(address) as client:
-        if client.is_connected:
-            print(f"Connected to {address}")
+    try:
+        while True:
+            try:
+                async with BleakClient(address) as client:
+                    if client.is_connected:
+                        print(f"Connected to {address}")
 
-            # Check if the characteristic supports notifications
-            services = client.services
-            for service in services:
-                if service.uuid == SERVICE_UUID:
-                    print(f"Found service {SERVICE_UUID}")
-                    for char in service.characteristics:
-                        if char.uuid == CHARACTERISTIC_UUID:
-                            print(f"Found characteristic {CHARACTERISTIC_UUID}")
+                        # Check if the characteristic supports notifications
+                        services = await client.get_services()
+                        for service in services:
+                            if service.uuid == SERVICE_UUID:
+                                print(f"Found service {SERVICE_UUID}")
+                                for char in service.characteristics:
+                                    if char.uuid == CHARACTERISTIC_UUID:
+                                        print(
+                                            f"Found characteristic {CHARACTERISTIC_UUID}"
+                                        )
 
-                            # Start notifications
-                            await client.start_notify(
-                                CHARACTERISTIC_UUID, notification_handler
-                            )
-                            print(f"Started notifications for {CHARACTERISTIC_UUID}")
+                                        # Start notifications
+                                        await client.start_notify(
+                                            CHARACTERISTIC_UUID, notification_handler
+                                        )
+                                        print(
+                                            f"Started notifications for {CHARACTERISTIC_UUID}"
+                                        )
 
-                            # Keep the connection open to receive notifications
-                            try:
-                                while True:
-                                    await asyncio.sleep(
-                                        1
-                                    )  # Adjust sleep time as needed
-                            except KeyboardInterrupt:
-                                print("Stopping notifications.")
-                                await client.stop_notify(CHARACTERISTIC_UUID)
-                                break
-        else:
-            print(f"Could not connect to device at {address}")
+                                        # Keep the connection open to receive notifications
+                                        try:
+                                            while client.is_connected:
+                                                await asyncio.sleep(
+                                                    1
+                                                )  # Adjust sleep time as needed
+                                        except BLEDisconnectError:
+                                            print(
+                                                "Device disconnected. Attempting to reconnect..."
+                                            )
+                                            break  # Break to reconnect loop
+
+            except BleakError as e:
+                print(f"Connection failed: {e}. Retrying in 5 seconds...")
+                await asyncio.sleep(5)  # Wait before attempting reconnection
+
+    except KeyboardInterrupt:
+        print("Program interrupted by user.")
 
 
 async def scan_for_device(target_address):
